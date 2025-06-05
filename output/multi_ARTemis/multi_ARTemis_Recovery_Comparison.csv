@@ -1,0 +1,8 @@
+Method,NotFollowing_Count,Following_Count,NotFollowing_Recovery,Following_Recovery
+CB,28.0,15.0,6.0,5.0
+FDR,33.0,10.0,6.0,5.0
+LR,18.0,25.0,7.0,4.0
+NN,43.0,,11.0,
+RF,30.0,13.0,7.0,4.0
+SVR,32.0,11.0,6.0,5.0
+XGB,28.0,15.0,6.0,5.0
