@@ -31,7 +31,7 @@ the ARTemis clinical trial with 75 samples (Earl et al., 2015), and 2 public cli
 
 
 # Installation
-**Installation requirements for CTR:**
+**Installation requirements:**
 
 * Python = 3.10
 * numpy 1.23.5
