@@ -1,0 +1,8 @@
+Method,NotFollowing_Count,Following_Count,NotFollowing_Avg_RCB,Following_Avg_RCB
+CB,32.0,11.0,1.5938,1.0
+FDR,40.0,3.0,1.45,1.3333
+LR,39.0,4.0,1.4872,1.0
+NN,32.0,11.0,1.5938,1.0
+RF,34.0,9.0,1.6176,0.7778
+SVR,32.0,11.0,1.5938,1.0
+XGB,33.0,10.0,1.5758,1.0
