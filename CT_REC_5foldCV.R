@@ -1,4 +1,4 @@
-###07/05/2025 Make Recommendation from trained models
+###CausalTree Model to Make Recommendation
 
 install_r_packages <- function (){
   # Install R package from CRAN repository
@@ -16,7 +16,6 @@ install_r_packages <- function (){
   librarian::shelf(dplyr, RcppArmadillo, Matrix, arules, irlba,
                    igraph, robustbase, fastICA,  recommenderlab, grf, rpart.plot,
                    devtools, quiet = TRUE)
-  # susanathey/causalTree, quiet = TRUE)
 
   BiocManager::install("Biobase")
   librarian::shelf(graph, RBGL, Rgraphviz)
@@ -51,7 +50,6 @@ package.check <- lapply(
   }
 )
 
-# library("dplyr", "recommenderlab", "pcalg", "causalTree", "graph","grf","rpart.plot" )
 library(dplyr)
 library(causalTree)
 library(rpart.plot)
@@ -65,7 +63,7 @@ build_causal_tree_model <- function(data_name, trainingData, causal_factors, out
   if (!dir.exists(out_put)) {
     dir.create(out_put)
   }
-  outputDir <- file.path(out_put, 'Trained-CTRModel')
+  outputDir <- file.path(out_put, 'trained_CTmodel')
 
   if (!dir.exists(outputDir)) {
     dir.create(outputDir)
@@ -94,7 +92,7 @@ build_causal_tree_model <- function(data_name, trainingData, causal_factors, out
     opcp <- tree$cptable[, 2][which.min(tree$cptable[, 4])]
     opfit <- prune(tree, opcp)
 
-    treeFileName <- paste(data_name, causal_factors[[i]], '_tree.png', sep = '')
+    treeFileName <- paste(data_name,'_', causal_factors[[i]], '_tree.png', sep = '')
     treeFile <- file.path(outputDir, treeFileName)
     png(file = treeFile, width = 1200, height = 900)
 
@@ -107,7 +105,7 @@ build_causal_tree_model <- function(data_name, trainingData, causal_factors, out
     results <- append(results, list(treeModel))
 
     trainingModel <- opfit
-    trainedModelFileName <- paste(data_name, causal_factors[[i]], '_trainedModel.RDS', sep = '')
+    trainedModelFileName <- paste(data_name, '_', causal_factors[[i]], '_trainedCTmodel.RDS', sep = '')
 
     trainedModelFile <- paste (outputDir, '/', trainedModelFileName,sep='')
     saveRDS(trainingModel, file=trainedModelFile)
@@ -195,7 +193,7 @@ make_binary_recommendation_r <- function(method,
   }
   newFileName <- paste(c(data_name, '_', method, fold, '.csv', collapse = ""))
   fullPath <- paste(c(outputdata_name,'/',newFileName ), collapse = "")
-  # write.csv(data_out,fullPath, row.names = FALSE)
+  write.csv(data_out,fullPath, row.names = FALSE)
   return(fullPath)
 }
 
@@ -208,9 +206,6 @@ predict_causal_effect_row <-function(models, recordForEstimate, threshold){
   }
   return (interRow)
 }
-
-
-
 
 set.seed(42)  # For reproducibility
 
@@ -239,10 +234,6 @@ method <- "CT"
 
 for (data_name in dataset_names) {
   cat("\nProcessing dataset:", data_name, "\n")
-
-  # input_data_folder <- file.path(projectFolder, 'input', data_name)
-  # input_file <- file.path(input_data_folder, paste0(data_name, '.csv'))
-  # input_data <- read.csv(input_file)
 
   input_data <- read.csv(paste0(projectFolder,'/input/',data_name,'/',data_name, '.csv'))
   input_data <- input_data[complete.cases(input_data[, outcome_name]), ]
